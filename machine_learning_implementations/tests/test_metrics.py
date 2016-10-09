@@ -13,6 +13,7 @@ class TestMeanAbsoluteError:
         preds = [1.0, 1.0, 1.0]
         assert abs(metrics.mean_absolute_error(actuals, preds) - 0.33333) < 0.00001
 
+
 class TestMeanSquaredError:
 
     def test_zero_case(self):
@@ -29,3 +30,43 @@ class TestMeanSquaredError:
         actuals = [2.0]
         preds = [5.0]
         assert metrics.mean_squared_error(actuals, preds) == 9.0
+
+
+class TestAveragePrecision:
+
+    def test_zero_case(self):
+        actuals = [1, 2, 3]
+        preds = [4, 5, 6]
+        assert metrics.average_precision(actuals, preds, 3) == 0.0
+
+        actuals = ['a']
+        preds = ['b']
+        assert metrics.average_precision(actuals, preds, 1) == 0.0
+
+    def test_partially_correct_case(self):
+        actuals = ['a', 'b']
+        preds = ['a', 'c']
+        assert metrics.average_precision(actuals, preds, 2) == 0.5
+
+        actuals = ['a', 'b']
+        preds = ['c', 'a']
+        assert metrics.average_precision(actuals, preds, 2) == 0.25
+
+        actuals = [1, 2, 3]
+        preds = [1, 5, 6]
+        assert abs(metrics.average_precision(actuals, preds, 3) - 0.33333) < 0.00001
+
+    def test_all_correct_case(self):
+        actuals = [1, 2, 3]
+        preds = [1, 2, 3]
+        assert metrics.average_precision(actuals, preds, 3) == 1.0
+
+        actuals = [1.0, 2.0]
+        preds = [2.0, 1.0]
+        assert metrics.average_precision(actuals, preds, 2) == 1.0
+
+    def test_n_cutoff(self):
+        # test that n prevents excess predictions from being counted
+        actuals = [1, 2, 3]
+        preds = [1, 4, 5]
+        assert metrics.average_precision(actuals, preds, 2) == 0.5
