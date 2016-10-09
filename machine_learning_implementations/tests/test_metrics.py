@@ -70,3 +70,29 @@ class TestAveragePrecision:
         actuals = [1, 2, 3]
         preds = [1, 4, 5]
         assert metrics.average_precision(actuals, preds, 2) == 0.5
+
+class TestMeanAveragePrecision:
+
+    def test_single_element_case(self):
+        actuals = [[1, 2]]
+        preds = [[1, 4]]
+        assert metrics.mean_average_precision(actuals, preds, 2) == 0.5
+
+        actuals = [['a', 'b']]
+        preds = [['c', 'a']]
+        assert metrics.mean_average_precision(actuals, preds, 2) == 0.25
+
+    def test_all_correct_case(self):
+        actuals = [[1, 2], [3, 4]]
+        preds = [[1, 2], [3, 4]]
+        assert metrics.mean_average_precision(actuals, preds, 2) == 1.0
+
+    def test_zero_case(self):
+        actuals = [['a', 'b'], ['c', 'd']]
+        preds = [['c', 'd'], ['a', 'b']]
+        assert metrics.mean_average_precision(actuals, preds, 2) == 0.0
+
+    def test_partially_correct_case(self):
+        actuals = [['a', 'b'], ['c', 'd']]
+        preds = [['a', 'b'], ['a', 'b']]
+        assert metrics.mean_average_precision(actuals, preds, 2) == 0.5

@@ -19,7 +19,9 @@ def mean_squared_error(predictions: typing.Iterable[AnyNum],
     return error_sum / len(predictions)
 
 
-def average_precision(actuals, predictions, n: int) -> float:
+def average_precision(actuals: typing.Iterable,
+                      predictions: typing.Iterable,
+                      n: int) -> float:
 
     if not actuals:
         return 0.0
@@ -38,4 +40,11 @@ def average_precision(actuals, predictions, n: int) -> float:
             num_correct_preds += 1
             score += num_correct_preds / (idx + 1)
     return score / min(len(actuals), n)
+
+
+def mean_average_precision(actuals: typing.Iterable[typing.Iterable],
+                           predictions: typing.Iterable[typing.Iterable],
+                           n: int) -> float:
+    return (sum(average_precision(acts, preds, n) for acts, preds
+                in zip(actuals, predictions)) / len(actuals))
 
