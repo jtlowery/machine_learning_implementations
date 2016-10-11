@@ -1,4 +1,6 @@
 import typing
+from collections import Counter
+from math import log2
 
 AnyNum = typing.TypeVar('AnyNum', int, float)
 
@@ -48,3 +50,13 @@ def mean_average_precision(actuals: typing.Iterable[typing.Iterable],
     return (sum(average_precision(acts, preds, n) for acts, preds
                 in zip(actuals, predictions)) / len(actuals))
 
+
+def entropy(labels: typing.Iterable) -> float:
+    label_counts = Counter(labels)
+    num_labels = len(labels)
+    probs = [float(l) / num_labels for l in label_counts.values()]
+    entropy_val = 0.0
+    for prob in probs:
+        if prob > 0.0:
+            entropy_val += -prob * log2(prob)
+    return entropy_val
