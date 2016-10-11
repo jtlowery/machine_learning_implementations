@@ -60,3 +60,10 @@ def entropy(labels: typing.Iterable) -> float:
         if prob > 0.0:
             entropy_val += -prob * log2(prob)
     return entropy_val
+
+
+def gini_impurity(labels: typing.Iterable) -> float:
+    label_counts = Counter(labels)
+    num_labels = len(labels)
+    return 1 - sum(((float(label_count) / num_labels)**2
+                    for label_count in label_counts.values()))

@@ -114,3 +114,18 @@ class TestEntropy:
 
         # unevenly split
         assert metrics.entropy((1, 1, 1, 2)) - .811278 < 0.00001
+
+class TestGiniImpurity:
+
+    def test_basic_cases(self):
+        # evenly split
+        assert metrics.gini_impurity((1, 1, 0, 0)) == 0.5
+        assert metrics.gini_impurity(['a', 'a', 'z', 'z']) == 0.5
+
+        # all one label
+        assert metrics.gini_impurity([1, 1, 1, 1]) == 0.0
+        assert metrics.gini_impurity((9.0, 9.0, 9.0, 9.0)) == 0.0
+        assert metrics.gini_impurity([0]) == 0.0
+
+        # unevenly split
+        assert metrics.gini_impurity([1, 0, 0, 0, 0, 0]) - 0.277777 < 0.00001
