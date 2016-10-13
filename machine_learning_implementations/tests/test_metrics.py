@@ -32,6 +32,22 @@ class TestMeanSquaredError:
         assert metrics.mean_squared_error(actuals, preds) == 9.0
 
 
+class TestRootMeanSquaredError:
+
+    def test_zero_case(self):
+        actuals = [1.0]
+        preds = [1.0]
+        assert metrics.root_mean_squared_error(actuals, preds) == 0.0
+
+    def test_nonzero_case(self):
+        actuals = [1.0, 1.0, 0.0]
+        preds = [1.0, 1.0, 1.0]
+        assert metrics.root_mean_squared_error(actuals, preds) - 0.5773502 < 0.00001
+
+        actuals = [1.0, 1.0, 1.0, 2.0]
+        preds = [1.0, 1.0, 1.0, 4.0]
+        assert metrics.root_mean_squared_error(actuals, preds) == 1.0
+
 class TestAveragePrecision:
 
     def test_zero_case(self):
@@ -114,6 +130,7 @@ class TestEntropy:
 
         # unevenly split
         assert metrics.entropy((1, 1, 1, 2)) - .811278 < 0.00001
+
 
 class TestGiniImpurity:
 

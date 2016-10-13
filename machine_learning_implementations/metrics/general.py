@@ -21,6 +21,11 @@ def mean_squared_error(predictions: typing.Iterable[AnyNum],
     return error_sum / len(predictions)
 
 
+def root_mean_squared_error(predictions: typing.Iterable[AnyNum],
+                            actuals: typing.Iterable[AnyNum]) -> float:
+    return mean_squared_error(predictions, actuals) ** 0.5
+
+
 def average_precision(actuals: typing.Iterable,
                       predictions: typing.Iterable,
                       n: int) -> float:
