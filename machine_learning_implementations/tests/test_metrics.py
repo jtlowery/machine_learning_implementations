@@ -48,6 +48,7 @@ class TestRootMeanSquaredError:
         preds = [1.0, 1.0, 1.0, 4.0]
         assert metrics.root_mean_squared_error(actuals, preds) == 1.0
 
+
 class TestAveragePrecision:
 
     def test_zero_case(self):
@@ -70,7 +71,8 @@ class TestAveragePrecision:
 
         actuals = [1, 2, 3]
         preds = [1, 5, 6]
-        assert abs(metrics.average_precision(actuals, preds, 3) - 0.33333) < 0.00001
+        assert abs(metrics.average_precision(actuals, preds, 3) -
+                   0.33333) < 0.00001
 
     def test_all_correct_case(self):
         actuals = [1, 2, 3]
@@ -146,3 +148,19 @@ class TestGiniImpurity:
 
         # unevenly split
         assert metrics.gini_impurity([1, 0, 0, 0, 0, 0]) - 0.277777 < 0.00001
+
+
+class TestMisclassificationError:
+
+    def test_basic_cases(self):
+        # evenly split
+        assert metrics.misclassification_error([1, 1, 0, 0]) == 0.5
+        assert metrics.gini_impurity(['a', 'a', 'z', 'z']) == 0.5
+
+        # all one label
+        assert metrics.misclassification_error(['a']) == 0
+        assert metrics.misclassification_error([1, 1, 1]) == 0
+
+        # unevenly split
+        assert (metrics.misclassification_error([1, 0, 0, 0, 0, 0])
+                - 0.166667) < 0.00001

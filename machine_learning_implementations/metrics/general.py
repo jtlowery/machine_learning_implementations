@@ -72,3 +72,9 @@ def gini_impurity(labels: typing.Iterable) -> float:
     num_labels = len(labels)
     return 1 - sum(((float(label_count) / num_labels)**2
                     for label_count in label_counts.values()))
+
+
+def misclassification_error(labels: typing.Iterable) -> float:
+    label_counts = Counter(labels)
+    num_labels = len(labels)
+    return 1 - max(label_count / num_labels for label_count in label_counts.values())
