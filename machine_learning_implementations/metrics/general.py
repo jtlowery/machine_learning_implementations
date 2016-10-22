@@ -78,3 +78,11 @@ def misclassification_error(labels: typing.Iterable) -> float:
     label_counts = Counter(labels)
     num_labels = len(labels)
     return 1 - max(label_count / num_labels for label_count in label_counts.values())
+
+
+def precision(true_positive: int, false_positive: int):
+    return true_positive / (true_positive + false_positive)
+
+
+def recall(true_positive: int, false_negative: int):
+    return true_positive / (true_positive + false_negative)

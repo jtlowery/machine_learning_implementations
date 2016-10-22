@@ -164,3 +164,25 @@ class TestMisclassificationError:
         # unevenly split
         assert (metrics.misclassification_error([1, 0, 0, 0, 0, 0])
                 - 0.166667) < 0.00001
+
+
+class TestPrecision:
+
+    def test_0_tp(self):
+        assert metrics.precision(true_positive=0, false_positive=1) == 0.0
+    def test_0_fp(self):
+        assert metrics.precision(true_positive=1, false_positive=0) == 1.0
+    def test_basic_cases(self):
+        assert metrics.precision(true_positive=2, false_positive=2) == 0.5
+        assert metrics.precision(true_positive=10, false_positive=5) - 0.666666 < 0.00001
+
+
+class TestRecall:
+
+    def test_0_fn(self):
+        assert metrics.recall(true_positive=1, false_negative=0) == 1.0
+    def test_0_tp(self):
+        assert metrics.recall(true_positive=0, false_negative=1) == 0.0
+    def test_basic_cases(self):
+        assert metrics.recall(true_positive=2, false_negative=2) == 0.5
+        assert metrics.recall(true_positive=10, false_negative=5) - 0.666666 < 0.00001
