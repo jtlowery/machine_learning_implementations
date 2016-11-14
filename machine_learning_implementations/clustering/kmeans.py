@@ -1,6 +1,6 @@
 import typing
 import random
-from machine_learning_implementations.metrics.general import squared_distance, mean_vectors
+from machine_learning_implementations.lin_alg.lin_alg import squared_distance, mean_vectors
 
 AnyNum = typing.TypeVar('AnyNum', int, float)
 
