@@ -32,6 +32,40 @@ class TestMeanSquaredError:
         assert metrics.mean_squared_error(actuals, preds) == 9.0
 
 
+class TestSquaredDistance:
+
+    def test_zero_case(self):
+        x = [1.0]
+        y = [1.0]
+        assert metrics.squared_distance(x, y) == 0.0
+
+        x = [1, -1]
+        y = [1, -1]
+        assert metrics.squared_distance(x, y) == 0.0
+
+    def test_nonzero_case(self):
+        x = [1]
+        y = [3]
+        assert metrics.squared_distance(x, y) == 4.0
+
+        x = [1.0, 1.0]
+        y = [3.0, 5.0]
+        assert metrics.squared_distance(x, y) == 20.0
+
+
+class TestMeanVectors:
+
+    def test_single_element_case(self):
+        assert metrics.mean_vectors([[1.0]]) == [1.0]
+        assert metrics.mean_vectors([[1, 0]]) == [1, 0]
+        assert metrics.mean_vectors([[-9.0, 1.0, -4.5]]) == [-9.0, 1.0, -4.5]
+
+    def test_multiple_element_case(self):
+        vecs = [[1, 2, 3], [1, 2, 3]]
+        assert metrics.mean_vectors(vecs) == [1, 2, 3]
+        vecs = [[1.0, 2.0, 9.0], [2.0, 0.0, 0.0]]
+        assert metrics.mean_vectors(vecs) == [1.5, 1.0, 4.5]
+
 class TestRootMeanSquaredError:
 
     def test_zero_case(self):

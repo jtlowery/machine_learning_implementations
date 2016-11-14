@@ -13,11 +13,23 @@ def mean_absolute_error(predictions: typing.Iterable[AnyNum],
     return error_sum / len(predictions)
 
 
+def squared_distance(x: typing.Iterable[AnyNum],
+                     y: typing.Iterable[AnyNum]) -> float:
+    return sum(((a - b) ** 2 for a, b in zip(x, y)))
+
+
+def mean_vectors(vectors: typing.Iterable[typing.Iterable[AnyNum]]) -> typing.Iterable[AnyNum]:
+    num_vectors = len(vectors)
+    sums = [0] * len(vectors[0])
+    for vector in vectors:
+        for idx, val in enumerate(vector):
+            sums[idx] += val
+    return [sum_component / num_vectors for sum_component in sums]
+
+
 def mean_squared_error(predictions: typing.Iterable[AnyNum],
-                        actuals: typing.Iterable[AnyNum]) -> float:
-    error_sum = 0
-    for prediction, actual in zip(predictions, actuals):
-        error_sum += (prediction - actual)**2
+                       actuals: typing.Iterable[AnyNum]) -> float:
+    error_sum = squared_distance(predictions, actuals)
     return error_sum / len(predictions)
 
 
@@ -29,7 +41,6 @@ def root_mean_squared_error(predictions: typing.Iterable[AnyNum],
 def average_precision(actuals: typing.Iterable,
                       predictions: typing.Iterable,
                       n: int) -> float:
-
     if not actuals:
         return 0.0
 
@@ -70,7 +81,7 @@ def entropy(labels: typing.Iterable) -> float:
 def gini_impurity(labels: typing.Iterable) -> float:
     label_counts = Counter(labels)
     num_labels = len(labels)
-    return 1 - sum(((float(label_count) / num_labels)**2
+    return 1 - sum(((float(label_count) / num_labels) ** 2
                     for label_count in label_counts.values()))
 
 
